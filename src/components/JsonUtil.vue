@@ -46,9 +46,9 @@ const parseJson = () => {
 }
 
 /**
- * 当输入框失去焦点触发事件
+ * 将json字符串转换为对象
  */
-const inputBlurEvent = () => {
+const parseJsonStr2Obj = () => {
   parseJson();
   judgeIsShowJsonViewer();
 }
@@ -57,13 +57,14 @@ const inputBlurEvent = () => {
   
 <template>    
   <div class="frame">
-    <dev class="json-util-item">
-      <el-input type="textarea" rows=24 v-model="jsonStr" placeholder="在这里输入json字符串 ~ ~ ~" @blur="inputBlurEvent"
-        input-style="width: 98%; height: 100vh; background-color: #eee;"></el-input>
-      <div class="json-view-area">
-        <json-viewer :value="data.jsonObj" :expand-depth=5 :copyable="copyShowText" expanded="true"></json-viewer>
-      </div>
-    </dev>
+    <el-input type="textarea" rows=100 v-model="jsonStr" placeholder="在这里输入json字符串 ~ ~ ~"
+      input-style="width: 100%; height: 100vh; background-color: #eee;"></el-input>
+    <div class="mid-bar">
+      <el-button @click="parseJsonStr2Obj" size="small" type="primary" :icon="ArrowRight">parse</el-button>
+    </div>
+    <div class="json-view-area">
+      <json-viewer :value="data.jsonObj" :expand-depth=5 :copyable="copyShowText" expanded="true"></json-viewer>
+    </div>
   </div>
 </template>
 
@@ -71,11 +72,17 @@ const inputBlurEvent = () => {
 .frame {
   width: 100%;
   height: 100vh;
-}
-
-.json-util-item {
   display: flex;
   flex-direction: row;
+
+  .mid-bar {
+    width: 8%;
+    background-color: #ffe4c4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  // 水平居中
+    align-items: center; // 垂直居中
+  }
 }
 
 .json-view-area {
