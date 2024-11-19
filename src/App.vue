@@ -5,12 +5,18 @@ import JsonUtil from './components/JsonUtil.vue'
 </script>
 
 <template>
-  <JsonUtil></JsonUtil>
+  <el-container>
+    <!-- <el-header>Json Utils</el-header> -->
+    <el-main>
+      <JsonUtil></JsonUtil>
+    </el-main>
+  </el-container>
+
 </template>
 
 <style scoped>
 .el-container {
-  height: 100%;
+  height: 100vh;
 }
 
 .el-header,
@@ -18,7 +24,9 @@ import JsonUtil from './components/JsonUtil.vue'
   background-color: #b3c0d1;
   color: #333;
   text-align: center;
-  line-height: 60px;
+  font-size: 18px;
+  line-height: 50px;
+  height: 6%;
 }
 
 .el-aside {
@@ -29,10 +37,11 @@ import JsonUtil from './components/JsonUtil.vue'
 }
 
 .el-main {
-  background-color: #e9eef3;
+  background-color: #fff;
+  /* background-color: #e9eef3; */
   color: #333;
-  text-align: center;
-  line-height: 160px;
+  margin: 0;
+  padding: 0;
 }
 
 .el-menu {

@@ -16,8 +16,6 @@ var jsonObjList = ref([])
 var jsonStr = ref("")
 // 是否展示转换后的字符串
 var isShowJsonViewer = ref(true)
-// 是否进行字符过滤，过滤斜杠和换行符等空格符号
-var isFilterSpecialChar = ref(false)
 var isShowJsonViewer = ref(false)
 var isReadLog = ref(false)
 
@@ -65,14 +63,23 @@ const parseJson = () => {
   //   });
   // }
 
-  // 字符串非空
-  if (isFilterSpecialChar === true) {
-    var tempJsonStr = jsonStr.value.replace(/[/|\\|\n|\r|\t"]*/g, "")
-  } else {
-    var tempJsonStr = jsonStr.value
-  }
-  console.log("after JsonStr replace:", tempJsonStr)
-  data.jsonObj = JSON.parse(tempJsonStr)
+  data.jsonObj = JSON.parse(jsonStr.value);
+}
+
+/**
+ * json字符串去除空格
+ */
+const jsonStrFilter = () => {
+  var tempJsonStr = jsonStr.value.replace(/[/\\\s]*/g, "");
+  jsonStr.value = tempJsonStr;
+}
+
+/**
+ * 清空字符串
+ */
+const cleanJsonStr = () => {
+  jsonStr.value = "";
+  isShowJsonViewer = false;
 }
 
 /**
@@ -99,14 +106,19 @@ const parseJsonStr2Obj = () => {
 </script>
   
 <template>    
+  <el-header>
+    <el-button @click="cleanJsonStr" size="default">clean</el-button>
+    <el-button @click="jsonStrFilter" size="default" type="primary">filter</el-button>
+  </el-header>
   <div class="frame">
     <el-input type="textarea" v-model="jsonStr" placeholder="在这里输入json字符串 ~ ~ ~"
-      input-style="width: 100%; height: 100vh; background-color: #eee;"></el-input>
+      input-style="width: 100%; height: 94vh; background-color: #eee; white-space: normal; overflow-wrap: break-word; word-break: break-all"></el-input>
     <div class="mid-bar">
-      <el-button @click="parseJsonStr2Obj" size="small" type="primary" :icon="ArrowRight">parse</el-button>
+      <el-button @click="parseJsonStr2Obj" size="small" type="primary">
+        <!-- <p>parse</p> -->
+        <el-icon><ArrowRight /></el-icon>
+      </el-button>
       <br>
-      <el-switch v-model="isFilterSpecialChar" size="large"
-        active-text="filter" inactive-text="filter" inline-prompt></el-switch>
       <!-- <el-switch v-model="isReadLog" size="large"
         active-text="log" inactive-text="log" inline-prompt></el-switch> -->
       </div>
@@ -118,9 +130,19 @@ const parseJsonStr2Obj = () => {
 </template>
 
 <style scoped lang="scss">
+.el-header {
+  padding-left: 1%;
+  height: 6vh;
+  display: flex;
+  align-items: center;
+  border-bottom-style: solid;
+  border-bottom-color: #ccc;
+  border-bottom-width: 1px;
+}
+
 .frame {
   width: 100%;
-  height: 100vh;
+  height: 94vh;
   display: flex;
   flex-direction: row;
 
@@ -136,7 +158,7 @@ const parseJsonStr2Obj = () => {
 
 .json-view-area {
   width: 98%;
-  height: 100vh;
+  // height: 100vh;
   overflow: auto;
 }
 
